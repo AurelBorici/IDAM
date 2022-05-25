@@ -21,4 +21,5 @@ public class User
     public bool IsActive { get; set; }
     public Guid RoleId { get; set; }
     public Role? Role { get; set; }
+    public ICollection<RefreshTokens>? Tokens { get; set; }
 }
