@@ -34,11 +34,11 @@ public static class IdentityInfrastructure
             options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
             options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
         })
-            .AddJwtBearer(o =>
+            .AddJwtBearer(options =>
             {
-                o.RequireHttpsMetadata = false;
-                o.SaveToken = true;
-                o.TokenValidationParameters = new TokenValidationParameters
+                options.RequireHttpsMetadata = false;
+                options.SaveToken = true;
+                options.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuerSigningKey = true,
                     ValidateIssuer = true,
@@ -49,15 +49,14 @@ public static class IdentityInfrastructure
                     ValidAudience = configuration["JWTSettings:Audience"],
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWTSettings:Key"]))
                 };
-                o.Events = new JwtBearerEvents()
+                options.Events = new JwtBearerEvents()
                 {
                     OnAuthenticationFailed = context =>
                     {
-                        if (context.Exception.GetType() == typeof(SecurityTokenExpiredException))
-                        {
-                            context.Response.Headers.Add("IS-TOKEN-EXPIRED", "true");
-                        };
-                        return Task.CompletedTask;
+                        context.NoResult();
+                        context.Response.StatusCode = 500;
+                        context.Response.ContentType = "text/plain";
+                        return context.Response.WriteAsync(context.Exception.ToString());
                     },
                     OnChallenge = context =>
                     {
