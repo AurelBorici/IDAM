@@ -3,7 +3,7 @@ Identity and access management system.
 -Used Technologies: 
 -> .Net Core 6.0
 -> Microsoft SQL Server
--> Enity Framework 6.0.4
+-> Enity Framework 6.0.5
 -> Dapper 
 -> AutoMapper
 
