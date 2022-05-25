@@ -11,6 +11,6 @@ public class AuthenticationController : BaseController
     }
 
     [HttpPost]
-    public IActionResult Authenticate([FromBody] AuthRequestModel auth)
-        =>Ok(_mediator.Send(auth).Result);
+    public async Task<IActionResult> Authenticate([FromBody] AuthRequestModel auth)
+        =>Ok(await _mediator.Send(auth));
 }

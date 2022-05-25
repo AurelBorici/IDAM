@@ -14,7 +14,6 @@ public class RoleController : BaseController
     }
 
     [HttpPost]
-    [Route("add")]
-    public IActionResult AddRole(AddRoleRequestModel role)
-        => Ok(_mediator.Send(role).Result);
+    public async Task<IActionResult> AddRole(AddRoleRequestModel role)
+        => Ok(await _mediator.Send(role));
 }

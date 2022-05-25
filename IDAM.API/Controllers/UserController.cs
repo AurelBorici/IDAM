@@ -12,20 +12,17 @@ public class UserController : BaseController
     }
 
     [HttpPost]
-    [Route("add")]
-    public IActionResult CreateUser([FromBody] AddUserRequestModel user)
-            => Ok(_mediator.Send(user).Result);
+    public async Task<IActionResult> AddUser([FromBody] AddUserRequestModel user)
+            => Ok(await _mediator.Send(user));
 
     [HttpGet]
     [Route("{id}")]
-    public IActionResult GetUserById([FromRoute] Guid id)
-            => Ok(_mediator.Send(new GetUserByIdRequestModel { Id = id }).Result);
-
+    public async Task<IActionResult> GetUserById([FromRoute] Guid id)
+            => Ok(await _mediator.Send(new GetUserByIdRequestModel { Id = id }));
 
     [HttpGet]
-    [Route("users")]
-    public IActionResult GetUsers()
-            => Ok(_mediator.Send(new GetUsersRequestModel()).Result);
+    public async Task<IActionResult> GetUsers()
+            => Ok(await _mediator.Send(new GetUsersRequestModel()));
 
 
 }
